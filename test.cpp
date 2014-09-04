@@ -3,20 +3,32 @@
 
 using namespace std;
 
-int fun()
+
+
+class A{
+public:
+	virtual void test(){cout<<"A"<<endl;}
+};
+
+class B:public A{
+public:
+	virtual void test(){cout<<"B"<<endl;}
+};
+
+void fun(A* a)
 {
-	static int i = 0;
-	i++;
-	cout<<i<<endl;
+	a->test();
 }
 
 int main(int argc, char const *argv[])
 {
-	auto server = MSNServer::getInstance();
-	server->i = 7;
-	auto ser77 = MSNServer::getInstance();
-	// cout<<ser77->i<<endl;
-	server->test();
-	// delete server;
+	// B* b = new B();
+	// fun(b);
+	// auto server = MSNServer::getInstance();
+	// server->i = 7;
+	// auto ser77 = MSNServer::getInstance();
+	// // cout<<ser77->i<<endl;
+	// server->test();
+	// // delete server;
 	return 0;
 }
