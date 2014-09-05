@@ -5,9 +5,14 @@
 #include <map>
 #include <list>
 #include <string>
-#include "Module.h"
+#include <memory>
+#include <chrono>
+#include <ctime>
+#include "module/Module.h"
 #include "MSNServerListener.h"
-#include "Version.h"
+#include "util/Version.h"
+#include "util/DateTime.h"
+#include "database/DBConnectionManager.h"
 
 using namespace std;
 
@@ -23,9 +28,12 @@ public:
 
 	~MSNServer();
 
+	void start();
+
 	void addServerListener(MSNServerListener* listener);
 	void removeServerListener(MSNServerListener* listener);
 
+	// string getDataTimeString();
 	
 
 	void test() {
@@ -55,17 +63,27 @@ private:
 	static DeleteInstance di;
 	static MSNServer *instance;
 
-	map<string, Module*> modules;
+	map<string, shared_ptr<Module>> modules;
 
 	list<MSNServerListener*> listeners;
 
+	
+	string name;
+	string host;
 	Version version;
+	DateTime startDate;
+
+	bool started;
 
 
 	//Private Member function
 	MSNServer();
 
-
+	void loadModules();
+	void loadModule(Module *);
+	void initModules();
+	void startModules();
+	void verifyDataSource();
 
 };
 
