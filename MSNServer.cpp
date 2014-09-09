@@ -6,6 +6,7 @@ MSNServer::DeleteInstance MSNServer::di = MSNServer::DeleteInstance();
 
 
 MSNServer::MSNServer():version(0,0,0,0){
+	dbManager = make_shared<MSN_DBCMN::MysqlDBManager>(true);
 	// startDate = chrono::system_clock::now();
 	// modules = map<string, Module*>();
 	// listeners = list<MSNServerListener*>();
@@ -15,12 +16,19 @@ MSNServer::MSNServer():version(0,0,0,0){
 }
 
 MSNServer::~MSNServer() {
-	cout<<"~MSNServer"<<endl;
+	// cout<<"~MSNServer"<<endl;
+	dbManager->close();
 }
 
 void MSNServer::start(){
 
-	verifyDataSource();
+	try {
+		verifyDataSource();
+	} catch (MSN_DBCMN::DBException e) {
+		cout<<e.what()<<endl;
+		exit(1);
+	}
+	
 
 	loadModules();
 	initModules();
@@ -61,6 +69,9 @@ void MSNServer::startModules(){
 }
 
 
-void MSNServer::verifyDataSource(){
+void MSNServer::verifyDataSource() throw(MSN_DBCMN::DBException) {
+	
+	dbManager->open("localhost", 3306, "root", "123", "jfinal_demo");
+
 
 }

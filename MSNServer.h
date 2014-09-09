@@ -12,7 +12,7 @@
 #include "MSNServerListener.h"
 #include "util/Version.h"
 #include "util/DateTime.h"
-#include "database/DBConnectionManager.h"
+#include "database/MysqlDBManager.h"
 
 using namespace std;
 
@@ -75,6 +75,7 @@ private:
 
 	bool started;
 
+	shared_ptr<MSN_DBCMN::DBManager> dbManager;
 
 	//Private Member function
 	MSNServer();
@@ -83,7 +84,7 @@ private:
 	void loadModule(Module *);
 	void initModules();
 	void startModules();
-	void verifyDataSource();
+	void verifyDataSource() throw(MSN_DBCMN::DBException) ;
 
 };
 
