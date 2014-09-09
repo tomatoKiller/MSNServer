@@ -1,16 +1,18 @@
 CC   = g++ -g --std=c++11
+CXXFLAGS  =  -lmysqlclient 
 COMPILE.C  = $(CC) -c 
 VPATH   = ./database:./util:./module
-CXXFLAGS  =  -lgcc_s 
-MAKEEXE   = $(CC) $(LDFLAGS)
+# LDFLAGS += -L/usr/lib/x86_64-linux-gnu
+# LDFLAGS += -lmysqlclient
+MAKEEXE   = $(CC) $(LDFLAGS) 
 
-OBJ   = main.o MSNServer.o DBConnectionManager.o Version.o DateTime.o
+OBJ   = main.o MSNServer.o Version.o DateTime.o DBManagerCommon.o MysqlDBManager.o
 EXE   = MSNServer
 
 all:   $(EXE)
 
 $(EXE):   ${OBJ}
-	$(MAKEEXE) $^ -o $@
+	$(MAKEEXE) $^ -o $@ $(CXXFLAGS)
 %.o:   %.cpp
 	$(COMPILE.C) $< -o $@
 clean:
